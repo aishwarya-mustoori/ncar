@@ -1,0 +1,53 @@
+The idea of this exercise is to implement an efficient routine for dividing one
+time interval by another, with the restriction that the only operations that may
+be performed on the intervals are addition, subtraction, and multiplication by
+an integer. The time intervals themselves are represented by a TimeInterval
+class, which may not be modified.
+
+We're looking for an implementation of the "divide(...)" function in the
+interval_tests.cpp file, along with a set of tests to verify the correctness of
+the divide(...) function. The tests may be implemented directly in the main
+function in the interval_tests.cpp file or in their own functions.
+
+Comments in the divide(...) function should be sufficient to convince a code
+reviewer that the function is correct for all possible inputs.
+
+Additionally, the method used to implement interval division in the divide(...)
+function should be as algorithmically efficient as possible. In climate
+simulations, intervals as large as several millenia may be involved, and in
+weather research, intervals as small as a fraction of a second are frequently
+used.
+
+Adding the logic of the algorithm here : 
+
+Lets simplify this problem by taking integers. 
+Let the numerator be 58 and denominator be 6. 
+Let us keep on doubling the value of denominator in each step 
+
+6 (1)
+6 + 6 = 12 (2)
+12 + 12 = 24 (3)
+24 + 24 = 48 (4)
+48 + 48 = 96 // This is bigger than 58
+
+if we see this, we can exponentially reach 58 by doubling the denominator at each step rather that substracting the denominator at each step 
+Here the quotient will be (4 - number of times we've doubled the denominator)
+Remainder = 58 - doubled denominator value(48) = 10 
+
+Here I turn all values into negative, so that I compute everything considering the numerator and denominator is negative
+Store the sign to update the values of remainder and quotient accordingly. 
+Ex : numerator = -58 denominator = 6 
+As I've changed the denominator to -6 
+I would get the quotient as 4 and remainder as -10, but we need to change that this to show the quotient correctly
+
+
+Timing Complexity - O(log(n)) where n being denominator
+Space Complexity - 0(log(n)) where n being denominator [ to storage powers and doublePower vector]
+
+Considerations Taken : 
+
+-> I've considered Interval values can have -negative long integers in days,seconds,milliseconds Ex - TimeInterval(-1,-2,-3) exists 
+
+Overflow Conditions: 
+
+->This algorithm will overflow for less denominator values and gives wrong values for quotient (as the quotient(stored) as long) overflows
